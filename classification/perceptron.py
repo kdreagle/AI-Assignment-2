@@ -38,13 +38,18 @@ class PerceptronClassifier:
     
     self.features = trainingData[0].keys() # could be useful later
     # DO NOT ZERO OUT YOUR WEIGHTS BEFORE STARTING TRAINING
-    
+
     for iteration in range(self.max_iterations):
       print "Starting iteration ", iteration, "..."
+      guesses = self.classify(trainingData)
       for i in range(len(trainingData)):
-          "*** YOUR CODE HERE ***"
-          util.raiseNotDefined()
-    
+        "*** YOUR CODE HERE ***"
+        guess = guesses[i]
+        label = trainingLabels[i]
+        if guess != label:
+          self.weights[label].__radd__(trainingData[i])
+          self.weights[guess].__sub__(trainingData[i])
+
   def classify(self, data ):
     """
     Classifies each datum as the label that most closely matches the prototype vector
@@ -68,7 +73,12 @@ class PerceptronClassifier:
     featuresWeights = []
 
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    weightsCopy = self.weights[label].copy()
+
+    for x in range(0,100):
+      max = weightsCopy.argMax()
+      featuresWeights.append(max)
+      del weightsCopy[max]
 
     return featuresWeights
 
